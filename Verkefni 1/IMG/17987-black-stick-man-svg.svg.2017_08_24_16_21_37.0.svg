@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="640"
+   height="480"
+   version="1.1"
+   id="svg16"
+   sodipodi:docname="17987-black-stick-man-svg.svg">
+  <metadata
+     id="metadata22">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs20" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview18"
+     showgrid="false"
+     showguides="false" />
+  <g
+     id="g14">
+    <title
+       id="title10">Layer 1</title>
+    <path
+       id="path563"
+       d="m 212.86908,128.61 -85.64,89.032 17.806,17.806 67.834,-72.073 c 1.4488,50.90955 2.4893,98.14438 0.849,121.25202 l -58.507,180.60797 c 0,0 38.157,0.95102 39.005,-0.745 0.42301,-0.84799 43.5686,-162.44863 45.2646,-164.9926 l 40.44243,165.4764 h 32.35241 l -46.77004,-168.93644 -0.9124,-132.66235 69.52899,70.37801 20.35102,-16.959 C 317.99278,179.428 278.64433,138.83533 266.28907,128.61 Z"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.00000003pt"
+       sodipodi:nodetypes="cccccccccccccccc" />
+    <path
+       id="path564"
+       d="M 239.114,12.4448 C 159.409,14.1406 160.257,118.435 236.57001,119.283 318.819,119.283 321.362,13.2928 239.114,12.4448 Z"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;fill-rule:evenodd;stroke-width:1.00000003pt" />
+  </g>
+</svg>

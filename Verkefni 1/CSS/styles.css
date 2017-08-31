@@ -1,0 +1,9 @@
+svg
+{
+	border: 3px solid purple;
+
+}
+.draggable
+{
+	cursor: move;
+}
