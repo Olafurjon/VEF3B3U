@@ -1,10 +1,15 @@
 
 var board =  document.getElementById("board");
+var selection = document.getElementById("selection");
 var svgns = "http://www.w3.org/2000/svg";
-var rects = []
+var kassi = document.getElementsByClassName('kassalingur');
+var chessMaker = document.getElementById("makeChess");
 
-function makeBox()
-{
+var rects = [];
+var rects2 = [];
+
+function makeBox() {
+rects = [];
 for (var x = 0; x < 600; x += 60) {
     for (var y = 0; y < 600; y += 60) {
     rect = document.createElementNS(svgns,"rect");
@@ -17,13 +22,12 @@ for (var x = 0; x < 600; x += 60) {
     rect.setAttribute("height","60");
     rect.setAttribute("fill",'#'+Math.round(0xffffff * Math.random()).toString(16));
     rects.push(rect); 
-    
+    board.appendChild(rect);
   }
 }
 }
 
-function goDown(rect, begin)
-{
+function goDown(rect, begin){
   animate = document.createElementNS(svgns, "animate")
   animate.setAttribute("attributeName","height");
   animate.setAttribute("from","0");
@@ -31,12 +35,11 @@ function goDown(rect, begin)
   animate.setAttribute("dur","2s");
   animate.setAttribute("begin",begin);
   animate.setAttribute("fill","freeze");
-  animate.setAttribute("repeatCount","3");
+  animate.setAttribute("repeatCount","indefinite");
   rect.appendChild(animate);
 }
 
-function goUp(rect, begin)
-{
+function goUp(rect, begin){
   animate = document.createElementNS(svgns, "animate")
   animate.setAttribute("attributeName","height");
   animate.setAttribute("from","60");
@@ -44,13 +47,12 @@ function goUp(rect, begin)
   animate.setAttribute("dur","2s");
   animate.setAttribute("begin",begin);
   animate.setAttribute("fill","freeze");
-  animate.setAttribute("repeatCount","3");
+  animate.setAttribute("repeatCount","indefinite");
   rect.appendChild(animate);
 }
 
 
-function goRight(rect, begin)
-{
+function goRight(rect, begin){
   animate = document.createElementNS(svgns, "animate")
   animate.setAttribute("attributeName","width");
   animate.setAttribute("from","0");
@@ -58,12 +60,11 @@ function goRight(rect, begin)
   animate.setAttribute("dur","2s");
   animate.setAttribute("begin",begin);
   animate.setAttribute("fill","freeze");
-  animate.setAttribute("repeatCount","3");
+  animate.setAttribute("repeatCount","indefinite");
   rect.appendChild(animate);
 }
 
-function goLeft(rect, begin)
-{
+function goLeft(rect, begin){
   animate = document.createElementNS(svgns, "animate")
   animate.setAttribute("attributeName","width");
   animate.setAttribute("from","60");
@@ -71,13 +72,26 @@ function goLeft(rect, begin)
   animate.setAttribute("dur","2s");
   animate.setAttribute("begin",begin);
   animate.setAttribute("fill","freeze");
-  animate.setAttribute("repeatCount","3");
+  animate.setAttribute("repeatCount","indefinite");
+  rect.appendChild(animate);
+}
+
+function colorRave(rect){
+  animate = document.createElementNS(svgns, "animate")
+  animate.setAttribute("attributeName","fill");
+  color = rect.getAttribute("fill");
+  animate.setAttribute("from",color);
+  animate.setAttribute("to",'#'+Math.round(0xffffff * Math.random()).toString(16));
+  animate.setAttribute("dur","1s");
+  animate.setAttribute("fill","freeze");
+  animate.setAttribute("repeatCount","indefinite");
   rect.appendChild(animate);
 }
 
 
 function makeChess()
 {
+  rects2 = [];
   var i = 0;
   for (var x = 0; x < 600; x += 75) {
         i++;
@@ -106,37 +120,41 @@ function makeChess()
 
   }
 
-   rects += rect;
+   rects2 += rect;
 }
 }
 
 
 
-makeBox();
 
 
+function danceBox(){
 for (var i = 0; i < rects.length; i++) {
-
 if ((i % 2) == 0)
     {
    goDown(rects[i],0);
-   goUp(rects[i],2)
-   goRight(rects[i],6)
-   goUp(rects[i],12)
-   goLeft(rects[i],18)
+    goLeft(rects[i],0)
+    colorRave(rects[i]);
+
+
+      
+
     }
     else
     {
-        goLeft(rects[i],0)
-       goRight(rects[i],2);
-       goDown(rects[i],6);
-       goLeft(rects[i],12)
-       goUp(rects[i],18)
+        goUp(rects[i],0)
+       goRight(rects[i],0);
+        colorRave(rects[i]);
+
+      
+
     }
-    board.appendChild(rects[i]);
+    
 };
+}
    
-   
+   makeBox();
+
 
 
 
@@ -153,23 +171,24 @@ if ((i % 2) == 0)
   }
 }*/
 
-var kassi = document.getElementsByClassName('kassalingur');
 
 
-var mouseDown = 0;
-
-
-document.body.onmousedown = function() { 
-  mouseDown++;
-  console.log(mouseDown);
-}
-document.body.onmouseup = function() {
-  --mouseDown;
-}
 
 /*window.addEventListener("click",function(e){
 	console.log(e);
 })*/
+selection.addEventListener("click", function(e) {
+  if(e.target.id == "makeChess")
+  {
+    makeChess();
+  }
+    if(e.target.id == "danceBox")
+  {
+    danceBox();
+  }
+
+
+});
 
 board.addEventListener("click",function(e)
 {
@@ -180,25 +199,6 @@ board.addEventListener("click",function(e)
 })
 
 
-
-	/*kassi.addEventListener("mouseover",function(e){
-	mousemagic(e);
-
-
-	}); */
-
-/*var svgns = "http://www.w3.org/2000/svg";
-for (var x = 0; x < 600; x += 60) {
-    for (var y = 0; y < 600; y += 60) {
-        var rect = document.createElementNS(svgns, 'rect');
-        rect.setAttributeNS(null, 'x', x);
-        rect.setAttributeNS(null, 'y', y);
-        rect.setAttributeNS(null, 'height', '60');
-        rect.setAttributeNS(null, 'width', '60');
-        rect.setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
-        document.getElementById('board').appendChild(rect);
-    }
-}*/
 
 function mousemagic(e)
 {
