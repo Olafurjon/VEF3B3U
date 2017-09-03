@@ -27,6 +27,25 @@ for (var x = 0; x < 600; x += 60) {
 }
 }
 
+function makeCircle() {
+rects = [];
+for (var x = 0; x < 600; x += 30) {
+    for (var y = 0; y < 600; y += 30) {
+    circle = document.createElementNS(svgns,"circle");
+    
+    circle.setAttribute("id","kassalingur");
+    circle.setAttribute("class","kassalingur");
+    circle.setAttribute("cx",x);
+    circle.setAttribute("cy",y);
+    circle.setAttribute("r", "30");
+    circle.setAttribute("fill",'#'+Math.round(0xffffff * Math.random()).toString(16));
+    rects.push(circle); 
+    board.appendChild(circle);
+  }
+}
+}
+
+
 function goDown(rect, begin){
   animate = document.createElementNS(svgns, "animate")
   animate.setAttribute("attributeName","height");
@@ -79,8 +98,8 @@ function goLeft(rect, begin){
 function colorRave(rect){
   animate = document.createElementNS(svgns, "animate")
   animate.setAttribute("attributeName","fill");
-  color = rect.getAttribute("fill");
-  animate.setAttribute("from",color);
+  /*color = rect.getAttribute("fill");*/
+  animate.setAttribute("from",'#'+Math.round(0xffffff * Math.random()).toString(16));
   animate.setAttribute("to",'#'+Math.round(0xffffff * Math.random()).toString(16));
   animate.setAttribute("dur","1s");
   animate.setAttribute("fill","freeze");
@@ -124,6 +143,14 @@ function makeChess()
 }
 }
 
+function clearSVG()
+{
+  var children = board.childElementCount;
+  for (var i = 0; i < children.length; i++) {
+    board.removeChild();
+  };
+
+}
 
 
 
@@ -153,26 +180,6 @@ if ((i % 2) == 0)
 };
 }
    
-   makeBox();
-
-
-
-
-/*for (var x = 0; x < 600; x += 60) {
-    for (var y = 0; y < 600; y += 60) {
-    circle = document.createElementNS(svgns,"circle");
-    circle.setAttribute("id","kassalingur");
-    circle.setAttribute("class","kassalingur");
-    circle.setAttribute("cx",x);
-    circle.setAttribute("cy",y);
-    circle.setAttribute("r","60");
-    circle.setAttribute("fill",'#'+Math.round(0xffffff * Math.random()).toString(16));
-    board.appendChild(rect);
-  }
-}*/
-
-
-
 
 /*window.addEventListener("click",function(e){
 	console.log(e);
@@ -182,9 +189,17 @@ selection.addEventListener("click", function(e) {
   {
     makeChess();
   }
-    if(e.target.id == "danceBox")
+  if(e.target.id == "danceBox")
   {
     danceBox();
+  }
+  if(e.target.id == "makeBox")
+  {
+    makeBox();
+  }
+  if(e.target.id == "makeCircle")
+  {
+    makeCircle();
   }
 
 
