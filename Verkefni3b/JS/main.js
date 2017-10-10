@@ -1,4 +1,3 @@
-window.onload = function(){
 var width = 800;
 var height = 600;
 var scene = new THREE.Scene();
@@ -10,9 +9,20 @@ var buttons = document.getElementById("Button");
 renderer.setSize(width,height);
 var paused = false;
 var gemoindex = 0;
+var more = false;
+var number = 1;
+var randomsizes = false;
 var geoms = [
-new THREE.CylinderGeometry( 2, 2, 2, 24 ),
-new THREE.BoxGeometry( 2, 2, 2)
+new THREE.CylinderGeometry( 2, 2, 2, 36 ),
+new THREE.BoxGeometry( 2, 2, 2),
+new THREE.SphereGeometry( 2,0 )
+]
+var mats = [
+new THREE.MeshNormalMaterial(),
+new THREE.MeshBasicMaterial(),
+new THREE.MeshPhongMaterial({
+	color: 0x32CD82,
+	specular: 0x009900})
 ]
 
 function createSlider(change)
@@ -48,13 +58,73 @@ function makeTriangle()
 
 	return geom;
 }
+var objects = new Array();
+function AddMoreToScene(copy,number){
+	objects = new Array();
+	for (var i = 0; i < number ; i++) {
+		object = new THREE.Mesh(object.geometry, object.material)
+		object.position.x = Math.floor((Math.random() - 0.5) * 30);
+		object.position.z = Math.floor((Math.random() - 0.5) * 20);
+		object.position.y = Math.floor((Math.random() - 0.5) * 20);
+		object.rotation = copy.rotation;
+		objects.push(object)
+	}
+
+
+		
+	
+}
+
 
 document.addEventListener("click",function(e){
-	//console.log(e);
+	console.log(e);
 	if(e.target.id == "kubbur")
 	{
 		object.geometry = geoms[1];
+		
 	}
+	if(e.target.id == "bolti")
+	{
+		object.geometry = geoms[2];
+	}
+	if(e.target.id == "randomsize")
+	{
+		if(randomsizes)
+		{
+			randomsizes = false;
+		}
+		else
+		{
+			randomsizes = true;
+		}
+	}
+	if(e.target.id == "wireframe")
+	{
+		if(object.material.wireframe)
+		{
+			object.material.wireframe = false;
+		}
+		else{
+			object.material.wireframe = true;
+		}
+	}
+	if(e.target.id == "more")
+	{
+
+		if (more)
+		{
+			scene = new THREE.Scene();
+			more = false;
+			AddMoreToScene(object,1);
+		}
+		else{
+			scene = new THREE.Scene();
+			more = true;
+			AddMoreToScene(object,number);
+			
+		}
+	}
+	
 	if(e.target.id == "pause")
 	{
 		if(paused)
@@ -74,17 +144,40 @@ document.addEventListener("click",function(e){
 document.body.appendChild(renderer.domElement);
 camera.position.z = 30;
 var geometry = geoms[gemoindex];
-var material =  new THREE.MeshNormalMaterial();
+var material =  mats[0];
 var object = new THREE.Mesh(geometry,material);
+AddMoreToScene(object,number);
+var light = new THREE.PointLight(0x322D32);
+	light.intensity = 5;
+	light.position.set(11,1,25);
 
 var render = function(){ 
-	scene.add(object);
-	if(autorotate)
-	{
-	object.rotation.x += 0.01;
-	object.rotation.z += 0.01;
+	for (var i = 0; i < objects.length; i++) {
+		scene.add(objects[i]);
+		objects[i].geometry = object.geometry;
+		if(autorotate)
+		{
+			objects[i].rotation.x += 0.01;
+			objects[i].rotation.z += 0.01;
+		}
+		if(randomsizes)
+		{
+			objects[i].scale.x = Math.floor(Math.random() * 5)+1;
+			objects[i].scale.y = Math.floor(Math.random() * 5)+1;
+			objects[i].scale.z = Math.floor(Math.random() * 5)+1;
+
+		}
+
+			scene.add(light);
+
 	}
-	getStats();
+	randomsizes = false;
+
+
+
+
+		
+	//getStats();
 	requestAnimationFrame(render);
 	renderer.render( scene, camera );
 	
@@ -103,77 +196,6 @@ function getStats(){
 	children[2].value = object.rotation.x;
 	children[4].value = object.rotation.y;
 	children[6].value = object.rotation.z;
-}
-
-function SimpleSphere(){
-	var scene = new THREE.Scene();
-	var aspect = window.innerWidth / window.innerHeight;
-	var camera = new THREE.PerspectiveCamera( 45, aspect, 0.1, 1000 );
-	var renderer = new THREE.WebGLRenderer({ alpha: true });
-	renderer.setSize( 100, 50 );
-	document.body.appendChild( renderer.domElement );
-		var count = 0;
-	var geometry = new THREE.SphereGeometry( 3 );
-	var material = new THREE.MeshNormalMaterial({
-		wireframe: false,
-		color: 0x32CD32
-	});
-	var cube = new THREE.Mesh( geometry, material );
-	var cubes = new Array();
-	scene.add(cube);
-		camera.position.z = 10;
-
-	var render = function () {
-		
-		cube.rotation.x += 0.01;
-	  	cube.rotation.y -= 0.01;
-
-	  requestAnimationFrame( render );
-	  renderer.render( scene, camera );
-	};
-
-	render();
-}
-
-
-function SimpleRotatingBox(){
-	var scene = new THREE.Scene();
-	var aspect = window.innerWidth / window.innerHeight;
-	var camera = new THREE.PerspectiveCamera( 45, aspect, 0.1, 1000 );
-	var renderer = new THREE.WebGLRenderer({ alpha: true });
-	renderer.setSize( 100, 50 );
-	document.body.appendChild( renderer.domElement );
-		var count = 0;
-	var geometry = new THREE.BoxGeometry( 3 , 3, 3 );
-	var material = new THREE.MeshNormalMaterial({
-		wireframe: true,
-		color: 0x32CD32
-	});
-	var cube = new THREE.Mesh( geometry, material );
-	var cubes = new Array();
-	scene.add(cube);
-
-	function createCube()
-	{
-		cube = new THREE.Mesh(geometry,material);
-		cube.position.x = Math.floor((Math.random() - 0.5) * 100);
-		cube.position.z = Math.floor((Math.random() - 0.5) * 100);
-		cube.position.y = Math.floor((Math.random() - 0.5) * 100);
-
-		cubes.push(cube);
-	}
-		camera.position.z = 10;
-
-	var render = function () {
-		
-		cube.rotation.x += 0.01;
-	  	cube.rotation.y -= 0.01;
-
-	  requestAnimationFrame( render );
-	  renderer.render( scene, camera );
-	};
-
-	render();
 }
 
 var canvas = document.getElementsByTagName("canvas")[0];
@@ -208,10 +230,10 @@ canvas.addEventListener("drag",function(e){
 	{
 		camera.rotation.x += 2;
 	}
+});
 
 //console.log(e);
 
-});
 
 
 /*
@@ -343,4 +365,4 @@ function TextureTest(){
 	};
 }
 //TextureTest();
-*/}
+*/
