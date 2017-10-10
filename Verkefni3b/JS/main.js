@@ -9,9 +9,9 @@ var buttons = document.getElementById("Button");
 renderer.setSize(width,height);
 var paused = false;
 var gemoindex = 0;
-var more = false;
 var number = 1;
 var randomsizes = false;
+var numberchanger  = document.getElementById("number");
 var geoms = [
 new THREE.CylinderGeometry( 2, 2, 2, 36 ),
 new THREE.BoxGeometry( 2, 2, 2),
@@ -42,7 +42,14 @@ function createSlider(change)
 
 var output = document.getElementById("Output");
 
+numberchanger.addEventListener("focusout",function(){
+	number = numberchanger.value;
 
+			scene = new THREE.Scene();
+			AddMoreToScene(object,number);
+				
+	
+})
 
 function makeTriangle()
 {
@@ -108,22 +115,7 @@ document.addEventListener("click",function(e){
 			object.material.wireframe = true;
 		}
 	}
-	if(e.target.id == "more")
-	{
 
-		if (more)
-		{
-			scene = new THREE.Scene();
-			more = false;
-			AddMoreToScene(object,1);
-		}
-		else{
-			scene = new THREE.Scene();
-			more = true;
-			AddMoreToScene(object,number);
-			
-		}
-	}
 	
 	if(e.target.id == "pause")
 	{
@@ -155,6 +147,7 @@ var render = function(){
 	for (var i = 0; i < objects.length; i++) {
 		scene.add(objects[i]);
 		objects[i].geometry = object.geometry;
+		objects[i].material = object.material;
 		if(autorotate)
 		{
 			objects[i].rotation.x += 0.01;
