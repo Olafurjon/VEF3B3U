@@ -9,15 +9,52 @@
   <div id="transformer">
       <label> Transform </label> 
       <label> X </label><input type="text" Width="20px">
+      
       <label> Y </label><input type="text" Width="20px">
-      <label> Z </label><input type="text" Width="20px">
 
+      <label> Z </label><input type="text" Width="20px">
+     
+
+  </div>
+  <div id="transformrange" class="rangediv">
+    <input id="transformx" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(0)" >
+    <input id="transformy" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(1)" >
+    <input id="transformz" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(2)" >
   </div>
     <div id="rotator">
       <label> Rotation </label> 
       <label> X </label><input type="text" Width="20px">
       <label> Y </label><input type="text" Width="20px">
       <label> Z </label><input type="text" Width="20px" >
+  </div>
+    <div id="rotatorrange" class="rangediv">
+    <input id="transformx" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(3)" >
+    <input id="transformy" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(4)" >
+    <input id="transformz" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(5)" >
+  </div>
+    <div id="camera">
+      <label> Camera </label> 
+      <label> X </label><input id="camx" type="text" Width="20px">
+      <label> Y </label><input id="camy" type="text" Width="20px">
+      <label> Z </label><input id="camz" type="text" Width="20px" >
+      <label> FOV </label><input id="camfov" type="text" Width="20px" >
+  </div>
+    <div id="camerarange" class="rangediv">
+    <input id="transformx" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(6)" >
+    <input id="transformy" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(7)" >
+    <input id="transformz" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(8)" >
+    <input id="transformz" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(9)" >
+  </div>
+   <div id="camerarot">
+      <label> Camera Rot </label> 
+      <label> X </label><input id="camx" type="text" Width="20px">
+      <label> Y </label><input id="camy" type="text" Width="20px">
+      <label> Z </label><input id="camz" type="text" Width="20px" >
+  </div>
+    <div id="camerarange" class="rangediv">
+    <input id="transformx" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(10)" >
+    <input id="transformy" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(11)" >
+    <input id="transformz" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc()" >
   </div>
       <div id="scaler">
       </div>
@@ -26,15 +63,16 @@
       </div>
 
 </div >
-  <div id="Main">
+<div id="Main">
     <script src="JS/main.js">    </script>
   </div>
+  
   <div id="changeForm">
     <div id="Button">
     <p id="kubbur"> Breyta í Kubb </p>
     </div>
     <div id="Button">
-    <p id="pause">Slökkva á snúning</p>
+    <p id="pause">toggle-a snúning</p>
     </div>
     <div id="Button">
     <p id="bolti">Bolti</p>
@@ -42,11 +80,14 @@
     <div id="Button">
     <p id="wireframe">wireframe</p>
     </div>
-      <div id="Button">
+    <div id="Button">
     <p id="randomsize">Randomize Size</p>
+    </div>
+    <div id="Button">
+    <p id="selectAll">Velja alla obj</p>
     </div>
 
   </div>
-
+  <script src="JS/OrbitControls.js"></script>
   </body>
 </html>
