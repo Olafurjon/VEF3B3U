@@ -15,6 +15,7 @@ var autorotate = true;
 var aspect = (width / height);
 var camera = new THREE.PerspectiveCamera(100, aspect, 0.1,100);
 var renderer = new THREE.WebGLRenderer();
+
 var buttons = document.getElementById("Button");
 renderer.setSize(width,height);
 var paused = false;
@@ -34,6 +35,55 @@ var mats = [
 		color: 0x32CD82,
 		specular: 0x990000})
 ]
+
+function flag()
+{
+	var cy = -33;
+	var cx = -50;
+	var k = 0;
+	for (var i = 0; i < 204; i++) {
+	var object = new THREE.Mesh( new THREE.BoxGeometry(4,4,4), new THREE.MeshPhongMaterial({color: 0x000080}));
+	object.position.x = cx;
+	object.position.y = cy;
+
+	cy += 7;
+	k++;
+	//cx += 10;
+
+
+	if(i > 71 && i < 84 )
+	{
+		object.material =  new THREE.MeshPhongMaterial({color: 0xffffff})
+	}
+	if(i > (71+36) && i < (84+36) )
+	{
+		object.material =  new THREE.MeshPhongMaterial({color: 0xffffff})
+	}
+	if(k ==6 || k==7)
+	{
+		object.material =  new THREE.MeshPhongMaterial({color: 0x880000})
+	}
+
+	if(k ==5 || k==8)
+	{
+		object.material =  new THREE.MeshPhongMaterial({color: 0xffffff})
+	}
+	if(i > 83 && i < (84+24) )
+	{
+		object.material =  new THREE.MeshPhongMaterial({color: 0x880000})
+	}
+
+	if(k == 12)
+	{
+		cx+= 7;
+		cy = -33;
+		k = 0;
+	}
+	objects.push(object);
+}
+	
+
+}
 
 var uppTransX,uppTransY,uppTransZ,downTransX, downTransY, downTransZ,uppRotX,uppRotY,uppRotZ,downRotX, downRotY, downRotZ,
 	uppCamX,uppCamY,uppCamZ,downCamX, downCamY, downCamZ,uppCamX,uppCamY,uppCamZ,downCamX, downCamY, downRotZ,downCamFov, uppCamFov,
@@ -161,13 +211,10 @@ var ranges = document.getElementsByClassName("range")
   }
 
 
-var output = document.getElementById("Output");
-
-	numberchanger.addEventListener("focusout",function(){
-		number = numberchanger.value;
-
-				scene = new THREE.Scene();
-				AddMoreToScene(object,number);
+numberchanger.addEventListener("focusout",function(){
+	number = numberchanger.value;
+	scene = new THREE.Scene();
+	AddMoreToScene(object,number);
 
 })
 
@@ -214,7 +261,7 @@ document.addEventListener("click",function(e){
 	{
 		if(object.material.wireframe)
 		{
-			object.material.wireframe = false;
+			objects[i].material.wireframe = false;
 		}
 		else{
 			object.material.wireframe = true;
@@ -236,6 +283,11 @@ document.addEventListener("click",function(e){
 		paused = true;
 		}
 	}
+
+	if(e.target.id == "iceland")
+	{
+		flag();
+	}
 })
 
 document.body.appendChild(renderer.domElement);
@@ -253,8 +305,8 @@ var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
 window.addEventListener("mousemove",function(){
-	mouse.x = ( event.clientX / 800 ) * 2 - 1;
-	mouse.y = - ( event.clientY / 600 ) * 2 + 1;
+	mouse.x = ( event.clientX / width ) * 2 - 1;
+	mouse.y = - ( event.clientY / height ) * 2 + 1;
 	//console.log(mouse);
 
 })
@@ -340,64 +392,7 @@ var render = function(){
 				{
 					objects[i].position.z += 1;
 				}
-				if(uppCamX)
-				{
-					camera.position.x += 1;
-				}
-				if(uppCamY)
-				{
-					camera.position.y += 1;
-					
-				}
-				if(uppCamZ)
-				{
-					camera.position.z += 0.5;
-				}
-				if(downCamX)
-				{
-					camera.position.x -= 1;
-				}
-				if(downCamY)
-				{
-					camera.position.y -= 1;
-					
-				}
-				if(downCamZ)
-				{
-					camera.position.z -= 0.5;
-				}
-				if(downCamFov)
-				{
-					camera.fov -= 1;
-				}
-				if(uppCamFov)
-				{
-					camera.fov += 1;
-				}
-				if(uppRotCamX)
-				{
-					camera.rotation.x += 1;
-				}
-				if(downRotCamX)
-				{
-					camera.rotation.x -= 1;
-				}
-				if(uppRotCamY)
-				{
-					camera.rotation.y += 1;
-				}
-				if(downRotCamY)
-				{
-					camera.rotation.y -= 1;
-				}
-				if(uppRotCamZ)
-				{
-					camera.rotation.z += 1;
-				}
-				if(downRotCamZ)
-				{
-					camera.rotation.z -= 1;
-				}
+				
 			}
 			if(selected)
 			{
@@ -457,6 +452,64 @@ var render = function(){
 				}
 
 			}
+			if(uppCamX)
+				{
+					camera.position.x += 1;
+				}
+				if(uppCamY)
+				{
+					camera.position.y += 1;
+					
+				}
+				if(uppCamZ)
+				{
+					camera.position.z += 0.5;
+				}
+				if(downCamX)
+				{
+					camera.position.x -= 1;
+				}
+				if(downCamY)
+				{
+					camera.position.y -= 1;
+					
+				}
+				if(downCamZ)
+				{
+					camera.position.z -= 0.5;
+				}
+				if(downCamFov)
+				{
+					camera.fov -= 1;
+				}
+				if(uppCamFov)
+				{
+					camera.fov += 1;
+				}
+				if(uppRotCamX)
+				{
+					camera.rotation.x += 1;
+				}
+				if(downRotCamX)
+				{
+					camera.rotation.x -= 1;
+				}
+				if(uppRotCamY)
+				{
+					camera.rotation.y += 1;
+				}
+				if(downRotCamY)
+				{
+					camera.rotation.y -= 1;
+				}
+				if(uppRotCamZ)
+				{
+					camera.rotation.z += 1;
+				}
+				if(downRotCamZ)
+				{
+					camera.rotation.z -= 1;
+				}
 			
 			
 		}
@@ -494,6 +547,22 @@ var render = function(){
 	
 }
 render();
+var canvas = document.getElementsByTagName("canvas")[0];
+canvas.draggable = true;
+canvas.addEventListener("mousewheel",function(e){
+	//var scroll = window.scroll();
+	//console.log(e);
+	if(e.deltaY < 100)
+	{
+		camera.position.z -= 1;
+	}
+	else {
+		camera.position.z += 1;
+	}
+})
+
+
+
 
 
 function getStats(){
@@ -520,6 +589,10 @@ function getStats(){
 	children[2].value = camera.rotation.x;
 	children[4].value = camera.rotation.y;
 	children[6].value = camera.rotation.z;
+	if(numberchanger.onfocus = false)
+	{
+	numberchanger.value + objects.length();
+	}
 
 }
 
@@ -550,20 +623,4 @@ function makeNumberPretty(){
 	}
 
 }
-var canvas = document.getElementsByTagName("canvas")[0];
-canvas.draggable = true;
-canvas.addEventListener("mousewheel",function(e){
-	//var scroll = window.scroll();
-	//console.log(e);
-	if(e.deltaY < 100)
-	{
-		camera.position.z -= 1;
-	}
-	else {
-		camera.position.z += 1;
-	}
-})
-
-
-
 
