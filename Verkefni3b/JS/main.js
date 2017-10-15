@@ -5,6 +5,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
 
 }, true);
+
 var width = 900;
 var getstats = false;
 var height = 600;
@@ -12,32 +13,105 @@ var changeTransform = false;
 var changeCam = document.getElementById("camera");
 var scene = new THREE.Scene();
 var autorotate = true;
+var selectAll = false;
+var lightson = true;
+var lightint = 0.5;
+var lightint2 = 0.5;
 var aspect = (width / height);
 var camera = new THREE.PerspectiveCamera(100, aspect, 0.1,100);
 var renderer = new THREE.WebGLRenderer();
-
+var geomSelect = document.getElementById("geomSelector");
+var matSelect = document.getElementById("matSelector");
 var buttons = document.getElementById("Button");
+var lightintensity = document.getElementById("lightintensity");
+var lightintensity2 = document.getElementById("lightintensity2");
+
 renderer.setSize(width,height);
 var paused = false;
 var gemoindex = 0;
 var number = 1;
+var raiseflag = false;
 var randomsizes = false;
 var numberchanger  = document.getElementById("number");
+var points = [];
+for ( var i = 0; i < 10; i ++ ) {
+	points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 10 + 5, ( i - 5 ) * 2 ) );
+}
+function CustomSinCurve( scale ) {
+
+	THREE.Curve.call( this );
+
+	this.scale = ( scale === undefined ) ? 1 : scale;
+
+}
+
+CustomSinCurve.prototype = Object.create( THREE.Curve.prototype );
+CustomSinCurve.prototype.constructor = CustomSinCurve;
+
+CustomSinCurve.prototype.getPoint = function ( t ) {
+
+	var tx = t * 3 - 1.5;
+	var ty = Math.sin( 2 * Math.PI * t );
+	var tz = 0;
+
+	return new THREE.Vector3( tx, ty, tz ).multiplyScalar( this.scale );
+
+};
+var spriteMap = new THREE.TextureLoader().load( '../Verkefni3b/IMG/Bumpmap/gler.jpg' );
+var path = new CustomSinCurve( 10 )
 var geoms = [
 	new THREE.CylinderGeometry( 2, 2, 2, 36 ),
 	new THREE.BoxGeometry( 2, 2, 2),
-	new THREE.SphereGeometry( 2,0 )
+	new THREE.SphereGeometry( 2,0 ),
+	new THREE.CircleGeometry( 5, 32 ),
+	new THREE.DodecahedronGeometry(1,0),
+	new THREE.ConeGeometry( 5, 20, 32 ),
+	new THREE.IcosahedronGeometry(1,0),
+	new THREE.LatheGeometry( points ),
+	new THREE.RingGeometry( 1, 5, 32 ),
+	new THREE.PlaneGeometry( 5, 20, 32 ),
+	new THREE.SphereGeometry( 5, 32, 32 ),
+	new THREE.TorusGeometry( 10, 3, 16, 100 ),
+	new THREE.TubeGeometry( path, 20, 2, 8, false )
+
 ]
 var mats = [
 	new THREE.MeshNormalMaterial(),
 	new THREE.MeshBasicMaterial(),
 	new THREE.MeshPhongMaterial({
 		color: 0x32CD82,
-		specular: 0x990000})
+		specular: 0x990000}),
+	new THREE.MeshDepthMaterial(),
+	new THREE.MeshLambertMaterial(),
+	new THREE.MeshPhysicalMaterial(),
+	new THREE.MeshStandardMaterial(),
+	new THREE.MeshToonMaterial(),
+
 ]
 
-function flag()
+function changeintensity()
 {
+	console.log(lightintensity.value)
+	lightint = lightintensity.value;
+}
+function changeintensity2()
+{
+	console.log(lightintensity2.value)
+	lightint2 = lightintensity2.value;
+}
+function changeGeom()
+{
+	object.geometry = geoms[geomSelect.value];
+}
+
+function changeMat()
+{
+	object.material = mats[matSelect.value];
+}
+function flag(wireframe)
+{
+	
+	scene = new THREE.Scene();
 	var cy = -33;
 	var cx = -50;
 	var k = 0;
@@ -79,11 +153,19 @@ function flag()
 		cy = -33;
 		k = 0;
 	}
+	if(wireframe)
+	{
+	object.material.wireframe = true;
+	}
+
 	objects.push(object);
+
 }
 	
 
 }
+
+
 
 var uppTransX,uppTransY,uppTransZ,downTransX, downTransY, downTransZ,uppRotX,uppRotY,uppRotZ,downRotX, downRotY, downRotZ,
 	uppCamX,uppCamY,uppCamZ,downCamX, downCamY, downCamZ,uppCamX,uppCamY,uppCamZ,downCamX, downCamY, downRotZ,downCamFov, uppCamFov,
@@ -219,6 +301,7 @@ numberchanger.addEventListener("focusout",function(){
 })
 
 var random = Math.floor(Math.random()*geoms.length);
+geomSelect.value = random
 var objects = new Array();
 function AddMoreToScene(copy,number){
 	objects = new Array();
@@ -234,18 +317,37 @@ function AddMoreToScene(copy,number){
 
 }
 
+var lights = new Array();
+
+/*var light = new THREE.DirectionalLight( 0xffffff, 1 );
+	light.position.set( 0, 1, 0 );
+	lights.push( light );
+
+	var light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	light.position.set( 0, -1, 0 );
+	lights.push( light );
+
+	var light = new THREE.DirectionalLight( 0xffffff, 1 );
+	light.position.set( 1, 0, 0 );
+	lights.push( light );
+
+	var light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	light.position.set( 0, 0, 1 );
+	lights.push( light );
+
+	var light = new THREE.DirectionalLight( 0xffffff, 1 );
+	light.position.set( 0, 0, -1 );
+	lights.push( light );
+
+	var light = new THREE.DirectionalLight( 0xffffff, 0.5 );
+	light.position.set( -1, 0, 0 );
+	lights.push( light ); */
+
+
+
 
 document.addEventListener("click",function(e){
 	//console.log(e);
-	if(e.target.id == "kubbur")
-	{
-		object.geometry = geoms[1];
-		
-	}
-	if(e.target.id == "bolti")
-	{
-		object.geometry = geoms[2];
-	}
 	if(e.target.id == "randomsize")
 	{
 		if(randomsizes)
@@ -261,10 +363,10 @@ document.addEventListener("click",function(e){
 	{
 		if(object.material.wireframe)
 		{
-			objects[i].material.wireframe = false;
+			object.material.wireframe = false;
 		}
 		else{
-			object.material.wireframe = true;
+		object.material.wireframe = true;
 		}
 	}
 
@@ -284,9 +386,48 @@ document.addEventListener("click",function(e){
 		}
 	}
 
+	if(e.target.id == "lights")
+	{
+		if(lightson)
+		{
+			lightson = false;
+		}
+		else
+		{
+		lightson = true;
+		}
+	}
+
 	if(e.target.id == "iceland")
 	{
-		flag();
+		raiseflag = true;
+		flag(false);
+		geomSelect.value = 12
+		object.geometry = geoms[12];
+	}
+	if(e.target.id == "icelandwire")
+	{
+		raiseflag = true;
+		flag(true);
+		geomSelect.value = 12
+		object.geometry = geoms[12];
+	}
+	if(e.target.id == "selectAll")
+	{
+		if(!selectAll)
+		{
+			selectAll = true;
+		}
+		else
+		{
+			selectAll = false;
+		}
+
+	}
+
+	if(e.target.id == "lookAt")
+	{
+		camera.lookAt(object.position);
 	}
 })
 
@@ -296,30 +437,40 @@ var geometry = geoms[gemoindex];
 var material =  mats[1];
 var object = new THREE.Mesh(geometry,material);
 
-var light = new THREE.PointLight(0xFFFF90);
-var light = new THREE.AmbientLight();
-	light.intensity = 1;
-	light.position.set(11,1,25);
+
 
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
 window.addEventListener("mousemove",function(){
-	mouse.x = ( event.clientX / width ) * 2 - 1;
+	mouse.x = -( event.clientX / width ) * 2 - 1;
 	mouse.y = - ( event.clientY / height ) * 2 + 1;
 	//console.log(mouse);
 
 })
+//var grid = new THREE.GridHelper(10, 100);
+//	scene.add(grid);
+	//grid.rotation.x = 45;
+var light = new THREE.DirectionalLight( 0xffffff, 1 );
+	light.position.set( 0, 1, 0 );
+var light2 = new THREE.DirectionalLight( 0xffffff, 1 );
+	light2.position.set( 0, -1, 0 );
+
+
 var selected;
 AddMoreToScene(object,number);
 var render = function(){ 
 
 	raycaster.setFromCamera( mouse, camera );
-	scene.add(light);
 	for (var i = 0; i < objects.length; i++) {
 		scene.add(objects[i]);
-		objects[i].geometry = object.geometry.clone();
-		
+		objects[i].geometry = object.geometry;
+		if(selectAll)
+		{
+			
+			objects[i].material = object.material
+		}
+
 
 		if(autorotate)
 		{
@@ -333,6 +484,19 @@ var render = function(){
 			objects[i].scale.y = Math.floor(Math.random() * 5)+1;
 			objects[i].scale.z = Math.floor(Math.random() * 5)+1;
 
+		}
+		if(lightson)
+		{
+				light.intensity = lightint;
+					scene.add( light );
+				light2.intensity = lightint2;
+					scene.add(light2);
+
+		}
+		if(!lightson)
+		{
+			light.intensity = 0;
+			light2.intensity = 0;
 		}
 		if(changeTransform)
 		{
@@ -510,12 +674,9 @@ var render = function(){
 				{
 					camera.rotation.z -= 1;
 				}
-			
-			
+
 		}
 
-
-			
 			getStats();
 
 	}
@@ -529,15 +690,13 @@ var render = function(){
 
 	getStats();
 	makeNumberPretty();
-	var	intersects = raycaster.intersectObjects(scene.children);
+	var	intersects = raycaster.intersectObjects(objects);
 
 		if(intersects.length > 0)
 		{
 		var intersect = intersects[0];
 		window.addEventListener("mousedown",function(e){
 			console.log(intersect.object);
-			intersect.object.material = mats[1].clone();
-			intersect.object.geometry = geoms[2].clone();
 			selected = intersect.object;
 			
 		});
@@ -623,4 +782,3 @@ function makeNumberPretty(){
 	}
 
 }
-

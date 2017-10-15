@@ -1,6 +1,7 @@
 <html>
   <head>
-    <title>ThreeJS Test</title>
+    <title>Verkefni 3b</title>
+     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="CSS/styles.css">
   </head>
   <body>
@@ -56,11 +57,48 @@
     <input id="transformy" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc(11)" >
     <input id="transformz" class="range" type="range" min="-100" max="100" value="0" step="10" oninput="sliderfunc()" >
   </div>
+    <div id="lightinteschange">
+    <label>Styrkur ljóssins uppi  </label><input id="lightintensity"  type="text" value="0.5" onfocusout="changeintensity()" >
+     <label>Styrkur ljóssins niðri  </label><input id="lightintensity2"  type="text" value="0.5"  onfocusout="changeintensity2()" >
+  </div>
       <div id="scaler">
       </div>
       <div id="howmany">
       <label>Fjöldi Objecta </label><Input type="Text" id="number" value="1">
       </div>
+    <div id="geometry">
+    <label>Breyttu Um Geometry</label>
+    <select id="geomSelector" onchange="changeGeom()">
+      <option value="0">CylinderGeometry</option>
+      <option value="1">BoxGeometry</option>
+      <option value="2">SphereGeometry</option>
+      <option value="3">CircleGeometry</option>
+      <option value="4">DodecahedronGeometry</option>
+      <option value="5">ConeGeometry</option>
+      <option value="6">IcosahedronGeometry</option>
+      <option value="7">LatheGeometry</option>
+      <option value="8">RingGeometry</option>
+      <option value="9">PlaneGeometry</option>
+      <option value="10">SphereGeometry</option>
+      <option value="11">TorusGeometry</option>
+      <option value="12">TubeGeometry</option>
+    </select>
+    </div>
+    <div id="material">
+    <label>Breyttu Um Material</label>
+    <select id="matSelector" onchange="changeMat()">
+      <option value="0">MeshNormalMaterial</option>
+      <option value="1">MeshBasicMaterial</option>
+      <option value="2">MeshPhongMaterial</option>
+      <option value="3">MeshDepthMaterial</option>
+      <option value="4">MeshLambertMaterial</option>
+      <option value="5">MeshPhysicalMaterial</option>
+      <option value="6">MeshStandardMaterial</option>
+      <option value="7">MeshToonMaterial</option>
+
+    </select>
+    </div>
+
 
 </div >
 <div id="Main">
@@ -69,13 +107,7 @@
   
   <div id="changeForm">
     <div id="Button">
-    <p id="kubbur"> Breyta í Kubb </p>
-    </div>
-    <div id="Button">
     <p id="pause">toggle-a snúning</p>
-    </div>
-    <div id="Button">
-    <p id="bolti">Bolti</p>
     </div>
     <div id="Button">
     <p id="wireframe">wireframe</p>
@@ -87,10 +119,26 @@
     <p id="selectAll">Velja alla obj</p>
     </div>
       </div>
+    <div class="row" >
+    <div id="Button">
+    <p id="lights">Toggle-a Ljós</p>
+    </div>
+    <div id="Button">
+    <p id="lookAt">Fókusa á hlut</p>
+    </div>
+        <div class="row" >
     <div id="Button">
     <p id="iceland">Ísland</p>
     </div>
+    <div id="Button">
+    <p id="icelandwire">Ísland wireframe </p>
+    </div>
+    </div>
+
+
+
 
   </div>
+
   </body>
 </html>
